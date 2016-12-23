@@ -5,13 +5,13 @@ var map = new mapboxgl.Map({
     center: [-84.296108, 33.773726],
     zoom: 15,
     pitch: 45,
-    bearing: -17.6,
+    bearing: 17.6,
     container: 'map'
 });
 
-// the 'building' layer in the mapbox-streets vector source contains building-height
-// data from OpenStreetMap.
 map.on('load', function() {
+
+    //Decatur zoning layer
     map.addSource('ZONECLASS', {
         type: 'vector',
         url: 'mapbox://crice937.6wo7uv0k'
@@ -48,24 +48,30 @@ map.on('load', function() {
         }
     });
 
-    map.addLayer({
-        'id': '3d-buildings',
-        'source': 'composite',
-        'source-layer': 'building',
-        'filter': ['==', 'extrude', 'true'],
-        'type': 'fill-extrusion',
-        'minzoom': 15,
-        'paint': {
-            'fill-extrusion-color': '#F5F5F5',
-            'fill-extrusion-height': {
-                'type': 'identity',
-                'property': 'height'
-            },
-            'fill-extrusion-base': {
-                'type': 'identity',
-                'property': 'min_height'
-            },
-            'fill-extrusion-opacity': .6
-        }
-    });
+//The 'building' layer in the mapbox-streets vector source contains building-height
+//data from OpenStreetMap.
+map.addLayer({
+    'id': '3d-buildings',
+    'source': 'composite',
+    'source-layer': 'building',
+    'filter': ['==', 'extrude', 'true'],
+    'type': 'fill-extrusion',
+    'minzoom': 15,
+    'paint': {
+        'fill-extrusion-color': '#F5F5F5',
+        'fill-extrusion-height': {
+            'type': 'identity',
+            'property': 'height'
+        },
+        'fill-extrusion-base': {
+            'type': 'identity',
+            'property': 'min_height'
+        },
+        'fill-extrusion-opacity': .6
+    }
+});
+
+    //Navigation controls
+    map.addControl(new mapboxgl.NavigationControl({position: 'top-left'}));
+
 });
